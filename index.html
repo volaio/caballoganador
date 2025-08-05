@@ -2,17 +2,82 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>♟️ Ajedrez vs Bot (ELO 1000)</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/css/chessboard.min.css">
-  <link rel="stylesheet" href="style.css">
+  <title>♟️ Ajedrez contra Bot (ELO 1000)</title>
+  <style>
+    body {
+      background: #1a1a1a;
+      color: white;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    #board {
+      width: 400px;
+      margin: auto;
+    }
+    #estado {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/css/chessboard.min.css" />
 </head>
 <body>
   <h1>♟️ AJEDREZ CONTRA BOT</h1>
-  <div id="board" style="width: 400px; margin: auto;"></div>
-  <p id="estado"></p>
+  <div id="board"></div>
+  <p id="estado">Tu turno. Jugás con blancas.</p>
 
+  <!-- LIBRERÍAS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/js/chessboard.min.js"></script>
-  <script src="script.js"></script>
+
+  <!-- SCRIPT DEL JUEGO -->
+  <script>
+    const game = new Chess();
+    const estado = document.getElementById("estado");
+
+    const board = Chessboard("board", {
+      draggable: true,
+      position: "start",
+      onDragStart: (source, piece) => {
+        if (game.game_over() || piece.search(/^b/) !== -1) return false;
+      },
+      onDrop: (source, target) => {
+        const move = game.move({ from: source, to: target, promotion: "q" });
+        if (move === null) return "snapback";
+        actualizarEstado();
+        setTimeout(movimientoIA, 500);
+      },
+      onSnapEnd: () => board.position(game.fen())
+    });
+
+    function movimientoIA() {
+      if (game.game_over()) return;
+
+      const posibles = game.moves({ verbose: true });
+
+      // IA básica: si puede capturar, lo hace; si no, mueve aleatorio
+      const capturas = posibles.filter(m => m.flags.includes('c'));
+      const jugada = capturas.length > 0
+        ? capturas[Math.floor(Math.random() * capturas.length)]
+        : posibles[Math.floor(Math.random() * posibles.length)];
+
+      game.move(jugada);
+      board.position(game.fen());
+      actualizarEstado();
+    }
+
+    function actualizarEstado() {
+      if (game.in_checkmate()) {
+        estado.textContent = "¡Jaque mate! Fin del juego.";
+      } else if (game.in_draw()) {
+        estado.textContent = "Tablas.";
+      } else if (game.in_check()) {
+        estado.textContent = "¡Estás en jaque!";
+      } else {
+        estado.textContent = game.turn() === "w" ? "Tu turno (blancas)" : "Turno del bot (negras)";
+      }
+    }
+  </script>
 </body>
 </html>
