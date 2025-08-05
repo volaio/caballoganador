@@ -1,0 +1,27 @@
+body {
+  background: #0d0d0d;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+canvas {
+  background: #000;
+  border: 4px solid #444;
+  display: block;
+  margin: 20px auto;
+  box-shadow: 0 0 20px #0ff;
+}
+
+.scoreboard {
+  font-size: 32px;
+  margin: 10px;
+  font-weight: bold;
+}
