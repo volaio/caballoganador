@@ -1,0 +1,42 @@
+
+---
+
+### 🧠 Código base
+
+#### 📁 Estructura del proyecto
+
+
+---
+
+### 📄 `index.html`
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>🏇 Carrera de Caballos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>🏇 Carrera de Caballos</h1>
+
+  <div class="apuesta">
+    <label>Tu apuesta ($): <input type="number" id="apuesta" min="1" /></label>
+    <label>Caballo (1 a 4): <input type="number" id="caballo" min="1" max="4" /></label>
+    <button onclick="iniciarCarrera()">Iniciar carrera</button>
+  </div>
+
+  <div id="pista">
+    <div class="caballo" id="caballo1">🐎 Caballo 1</div>
+    <div class="caballo" id="caballo2">🐎 Caballo 2</div>
+    <div class="caballo" id="caballo3">🐎 Caballo 3</div>
+    <div class="caballo" id="caballo4">🐎 Caballo 4</div>
+  </div>
+
+  <p id="resultado"></p>
+
+  <script src="script.js"></script>
+</body>
+</html>
